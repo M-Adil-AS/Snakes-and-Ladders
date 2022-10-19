@@ -1,0 +1,220 @@
+body{
+    background-color:lightgrey;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#main{
+    position:absolute;
+    margin:auto;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    border:0.1vmin solid black;
+    height:98vmin;
+    width:98vmin;
+}
+
+.box{
+    float:left;
+    height:9.601vmin;
+    width:9.601vmin;
+    border:0.1vmin solid black;
+    text-align:center;
+    line-height:9.601vmin;
+    font-size:2.5vmin;
+    background-color:lightgreen;
+}
+
+#side{
+    position:absolute;
+    top:1vmin;
+    left:1vmin;
+    height:25vmin;
+    width:35vmin;
+    border:0.2vmin solid black;
+    background-color: lightgreen;
+    text-align: center;
+    font-size: 3.5vmin;
+}
+
+#cube_outer{
+    height:8vmin;
+    width:8vmin;
+    perspective:30vmin;
+    margin:auto;
+}
+
+#cube_inner{
+    height:100%;
+    width:100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition:all 0.75s linear;
+}
+
+#cube_inner div{
+    height:100%;
+    width:100%;
+    position:absolute;
+}
+
+#front{
+    transform:translateZ(4vmin);
+}
+
+#back{
+    transform:rotateY(180deg) translateZ(4vmin); 
+}
+
+#left{
+    transform:rotateY(-90deg) translateX(-4vmin); 
+    transform-origin:left; 
+}
+
+#right{
+    transform:rotateY(90deg) translateX(4vmin); 
+    transform-origin:right; 
+}
+
+#top{
+    transform:rotateX(-90deg) translateY(-4vmin); 
+    transform-origin:top; 
+}
+
+#bottom{
+    transform:rotateX(90deg) translateY(4vmin); 
+    transform-origin:bottom; 
+}
+
+img{
+    height:100.3%;
+    width:100.3%;
+}
+
+.players{
+    position:absolute;
+    top:90.9vmin;
+    left:3vmin;
+    height:4vmin;
+    width:4vmin;
+    border-radius: 50%;  
+    opacity: 0.7;
+    transition-duration:0.4s;
+    transition-property: margin;
+}
+
+.players:nth-child(1){background-color:red;}
+.players:nth-child(2){background-color:blue;}
+
+#main img{
+    position: absolute; 
+}
+
+#l1{ 
+    transform:scaleX(0.15) scaleY(0.2) rotate(31deg);
+    top:34.3vmin;
+    left:-29.5vmin;
+}
+
+#l2{ 
+    transform:scaleX(0.15) scaleY(0.2) rotate(31deg);
+    top:24.5vmin;
+    left:9.7vmin;
+}
+
+#l3{ 
+    transform:scaleX(0.15) scaleY(0.2) rotate(31deg);
+    top:-14.7vmin;
+    left:-39.3vmin;
+}
+
+#l4{ 
+    transform:scaleX(0.15) scaleY(0.2) rotate(31deg);
+    top:-24.5vmin;
+    left:19.5vmin;
+}
+
+#l5{ 
+    transform:scaleX(0.15) scaleY(0.2) rotate(-31deg);
+    top:14.7vmin;
+    left:-9.7vmin;
+}
+
+#l6{ 
+    transform:scaleX(0.15) scaleY(0.2) rotate(-31deg);
+    top:4.9vmin;
+    left:29.5vmin;
+}
+
+#l7{ 
+    transform:scaleX(0.15) scaleY(0.2) rotate(-31deg);
+    top:-14.7vmin;
+    left:39.3vmin;
+}
+
+#l8{ 
+    transform:scaleX(0.15) scaleY(0.2) rotate(-31deg);
+    top:-34.3vmin;
+    left:-19.5vmin;
+}
+
+#l9{
+    transform:scaleX(0.17) scaleY(0.2) rotate(65deg);
+    top:-10vmin;
+    left:-14.8vmin;
+}
+
+#l10{
+    transform:scaleX(0.17) scaleY(0.2) rotate(-65deg);
+    top:29.2vmin;
+    left:34.2vmin;
+}
+
+#s1{
+    transform:scaleX(0.3) scaleY(0.3) rotate(5deg);
+    left:8.7vmin;
+    top:-1vmin;
+}
+
+#s2{
+    transform:scaleX(0.18) scaleY(0.18);
+    left:-29.4vmin;
+    top:4.3vmin;
+}
+
+#s3{
+    transform:scaleX(0.2) scaleY(0.2);
+    top:-17vmin;
+    left:0.5vmin;
+}
+
+#s4{
+    transform:scaleX(0.2) scaleY(0.2) rotate(10deg);
+    top:37vmin;
+    left:-6vmin;
+}
+
+#s5{
+    transform:scaleX(0.19) scaleY(0.19) rotate(-60deg);
+    top:-35vmin;
+    left:10vmin;
+}
+
+#s6{
+    transform:scaleX(0.17) scaleY(0.17) rotate(45deg);
+    top:-34.5vmin;
+    left:-28vmin;
+}
+
+#s7{
+    transform:scaleX(0.2) scaleY(0.2) rotate(-90deg);
+    top:-34.5vmin;
+    left:38.7vmin;
+}
+
+#s8{
+    transform:scaleX(0.2) scaleY(0.2) rotate(90deg);
+    top:15.2vmin;
+    left:41.2vmin;
+}
