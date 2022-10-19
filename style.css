@@ -26,7 +26,7 @@ body{
     background-color:lightgreen;
 }
 
-#side{
+#side,#winnersList{
     position:absolute;
     top:1vmin;
     left:1vmin;
@@ -36,6 +36,11 @@ body{
     background-color: lightgreen;
     text-align: center;
     font-size: 3.5vmin;
+}
+
+#winnersList{
+    left:169vmin;
+    height:50vmin;
 }
 
 #cube_outer{
@@ -57,6 +62,15 @@ body{
     height:100%;
     width:100%;
     position:absolute;
+}
+
+img{
+    height:100.3%;
+    width:100.3%;
+}
+
+#main img{
+    position: absolute; 
 }
 
 #front{
@@ -87,11 +101,6 @@ body{
     transform-origin:bottom; 
 }
 
-img{
-    height:100.3%;
-    width:100.3%;
-}
-
 .players{
     position:absolute;
     top:90.9vmin;
@@ -106,10 +115,9 @@ img{
 
 .players:nth-child(1){background-color:red;}
 .players:nth-child(2){background-color:blue;}
-
-#main img{
-    position: absolute; 
-}
+.players:nth-child(3){background-color:green;}
+.players:nth-child(4){background-color:yellow;}
+.players:nth-child(5){background-color:purple;}
 
 #l1{ 
     transform:scaleX(0.15) scaleY(0.2) rotate(31deg);
