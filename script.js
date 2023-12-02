@@ -1,30 +1,35 @@
-let activePlayer = 'red'    //activePlayerToken
 let players = []            //playerTokens
-let stopCallback = false
 addPlayers()
-boxNumbers()
+let activePlayer = players[0]    //activePlayerToken
+let stopCallback = false
+
 players.forEach((player)=>{
-    document.querySelector(`#${player}`).style.marginLeft = '0vmin'
-    document.querySelector(`#${player}`).style.marginTop = '0vmin'
+    player.style.marginLeft = '3%'
+    player.style.marginTop = '93%'
+    player.style.background = player.getAttribute('id')
+    player.box = 1
 })
 
-document.addEventListener('keydown',async(e)=>{
+document.addEventListener('keydown', async(e)=>{
     if(e.keyCode=='83' && !stopCallback){
         stopCallback = true
         let diceNum = await roll()
         let willBeOutOfRange = checkRange(diceNum)
         await new Promise(resolve => setTimeout(resolve, 400))      //before run or after out of range
+        
         if(!willBeOutOfRange){
             await run(diceNum)
             await new Promise(resolve => setTimeout(resolve, 400))      //after run
         }
+        
         let wonBy = await checkWin()
         changeActivePlayer()
+        
         if(wonBy!='none'){
             manageWinner(wonBy)
             if(players.length==1){
                 document.querySelector('#p_turn').innerHTML = 'Game Ends!'
-                document.querySelector('#winnersList').insertAdjacentHTML('beforeend',`<p>${document.querySelector('#winnersList').querySelectorAll('p').length+1}   ${players[0]}</p>`)
+                document.querySelector('#winnersList-box').insertAdjacentHTML('beforeend',`<p>${document.querySelector('#winnersList').querySelectorAll('p').length+1}   ${players[0].getAttribute('id')}</p>`)
             }
             else{stopCallback = false}
         }
@@ -37,13 +42,13 @@ document.addEventListener('keydown',async(e)=>{
 function manageWinner(wonBy){
     let indexOfWinner = players.indexOf(wonBy)
     players.splice(indexOfWinner,1)
-    document.querySelector('#winnersList').insertAdjacentHTML('beforeend',`<p>${document.querySelector('#winnersList').querySelectorAll('p').length+1}   ${wonBy}</p>`)
+    document.querySelector('#winnersList-box').insertAdjacentHTML('beforeend',`<p>${document.querySelector('#winnersList').querySelectorAll('p').length+1}   ${wonBy.getAttribute('id')}</p>`)
 }
 
 function checkWin(){
     return new Promise(async(resolve,reject)=>{
-        if(marginTop()==-88.2 && marginLeft()==0){
-            document.querySelector('#p_turn').innerHTML = `Winner No.${document.querySelector('#winnersList').querySelectorAll('p').length+1}: ${activePlayer}`
+        if(activePlayer.box == 100){
+            document.querySelector('#p_turn').innerHTML = `Winner No.${document.querySelector('#winnersList').querySelectorAll('p').length+1}: ${activePlayer.getAttribute('id')}`
             new Audio('win.mp3').play()
             await new Promise(resolve => setTimeout(resolve, 2000)) 
             resolve(activePlayer)
@@ -59,8 +64,9 @@ function addPlayers(){
     while(!(no_of_players>=2 && no_of_players<6)){
         no_of_players = prompt("How many players? (2-5)")
     }
+    
     for(let i=0; i<5; i++){
-        (i<no_of_players)?players.push(document.querySelectorAll('.players')[i].id):document.querySelectorAll('.players')[i].style.opacity = 0
+        (i<no_of_players) ? players.push(document.querySelectorAll('.players')[i]) : document.querySelectorAll('.players')[i].style.opacity = 0
     }
 }
 
@@ -92,14 +98,16 @@ function move(direction){
     return new Promise(async(resolve,reject)=>{
         new Audio('move.mp3').play()
         if(direction=='up'){
-            document.querySelector(`#${activePlayer}`).style.marginTop = String(marginTop() - 9.8) + 'vmin'
+            activePlayer.style.marginTop = String(marginTop() - 10) + '%'
         }
         else if(direction=='right'){
-            document.querySelector(`#${activePlayer}`).style.marginLeft = String(marginLeft() + 9.8) + 'vmin'
+            activePlayer.style.marginLeft = String(marginLeft() + 10) + '%'
         }
         else if(direction=='left'){
-            document.querySelector(`#${activePlayer}`).style.marginLeft = String(marginLeft() - 9.8) + 'vmin'
+            activePlayer.style.marginLeft = String(marginLeft() - 10) + '%'
         }
+
+        activePlayer.box += 1
         await new Promise(resolve => setTimeout(resolve, 400))
         resolve()
     })
@@ -107,15 +115,15 @@ function move(direction){
 
 function changeActivePlayer(){
     let indexOfActive = players.indexOf(activePlayer)
-    activePlayer = (indexOfActive+1==players.length)?players[0]:players[indexOfActive+1]
-    document.querySelector('#p_turn').innerHTML = `${activePlayer} player's turn`
+    activePlayer = (indexOfActive+1==players.length) ? players[0] : players[indexOfActive+1]
+    document.querySelector('#p_turn').innerHTML = `${activePlayer.getAttribute('id')} player's turn`
 }
 
 function getDirection(){
-    if((marginLeft()==88.2 && ((((marginTop()*10)%(-19.6*10))/10)==0)) || (marginLeft()==0 && ((((marginTop()*10)%(-19.6*10))/10)!=0))){
+    if(activePlayer.box % 10 == 0){
         return 'up'
     }
-    else if((((marginTop()*10)%(-19.6*10))/10)==0){
+    else if(Math.floor(activePlayer.box/10) % 2 == 0){
         return 'right'
     }
     else{
@@ -125,13 +133,16 @@ function getDirection(){
 
 function checkLaddersAndSnakes(){
     return new Promise(async(resolve,reject)=>{
-        let froms = [[9.8,0],[49,-9.8],[0,-49],[58.8,-58.8],[39.2,-19.6],[78.4,-29.4],[88.2,-49],[29.4,-68.6],[19.6,-49],[88.2,-9.8],[68.6,-58.8],[9.8,-49],[39.2,-68.6],[29.4,-19.6],[58.8,-88.2],[9.8,-88.2],[78.4,-88.2],[88.2,-39.2]]
-        let tos = [[19.6,-19.6],[58.8,-29.4],[9.8,-68.6],[68.6,-78.4],[29.4,-39.2],[68.6,-49],[78.4,-68.6],[19.6,-88.2],[39.2,-58.8],[68.6,-19.6],[39.2,-29.4],[19.6,-29.4],[49,-58.8],[49,0],[49,-68.6],[19.6,-68.6],[88.2,-68.6],[88.2,-19.6]]
-        for(let i=0; i<tos.length; i++){
-            if(marginLeft()==froms[i][0] && marginTop()==froms[i][1]){
+        let snakes = [{from: 24, to:6},{from: 50, to:30},{from: 59, to:38},{from: 68, to:36},{from: 76, to:66},{from: 92, to:71},{from: 94, to:75},{from: 99, to:78}]
+        let ladders = [{from: 2, to:23},{from: 11, to:28},{from: 15, to:34},{from: 25, to:44},{from: 32, to:53},{from: 51, to:72},{from: 58, to:65},{from: 60, to:79},{from: 67, to:88},{from: 77, to:98}]
+        let objects = [...snakes, ...ladders]
+
+        for(let i=0; i<objects.length; i++){
+            if(activePlayer.box == objects[i].from){
                 new Audio('move.mp3').play()
-                document.querySelector(`#${activePlayer}`).style.marginLeft = `${tos[i][0]}vmin`
-                document.querySelector(`#${activePlayer}`).style.marginTop = `${tos[i][1]}vmin`
+                activePlayer.box = objects[i].to
+                activePlayer.style.marginLeft = (Math.floor(activePlayer.box/10) % 2 == 0) ? `${(((activePlayer.box-1) % 10) * 10) + 3}%` : `${93 - (((activePlayer.box-1) % 10) * 10)}%`
+                activePlayer.style.marginTop = `${(Math.floor((100 - activePlayer.box) / 10) * 10) + 3}%`
                 await new Promise(resolve => setTimeout(resolve, 400))
                 break
             }
@@ -141,25 +152,13 @@ function checkLaddersAndSnakes(){
 }
 
 function checkRange(diceNum){
-    return (marginTop()==-88.2 && (marginLeft()+Number((diceNum*-9.8).toFixed(1)))<0)?true:false
-}
-
-function boxNumbers(){
-    let boxes = document.querySelectorAll('.box')
-    boxes.forEach((box,i)=>{
-        if(String(i).length==1 || (String(i).length==2 && Number(String(i)[0]))%2==0){
-            box.innerHTML = 100-i
-        }
-        else{
-            box.innerHTML = Number(`${9-Number(String(i)[0])}${String(i)[1]}`)+1
-        }
-    })
+    return (activePlayer.box + diceNum > 100) ? true : false
 }
 
 function marginLeft(){
-    return Number(document.querySelector(`#${activePlayer}`).style.marginLeft.split('v')[0])
+    return Number(activePlayer.style.marginLeft.split('%')[0])
 }
 
 function marginTop(){
-    return Number(document.querySelector(`#${activePlayer}`).style.marginTop.split('v')[0])
+    return Number(activePlayer.style.marginTop.split('%')[0])
 }
