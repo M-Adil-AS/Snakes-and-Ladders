@@ -2,7 +2,7 @@
 One hundred squares full of traps and tricks. Roll the dice and try your luck! Ladders will take you up but Snakes will take you down!
 
 ### Instructions:
-Enter the no. of players.
+Enter the no. of players.  
 Press 'S' to roll the dice.
 
 Deployment Link: https://m-adil-as.github.io/Snakes-and-Ladders
